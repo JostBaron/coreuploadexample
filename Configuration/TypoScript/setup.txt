@@ -1,0 +1,29 @@
+plugin.tx_coreuploadexample {
+    view {
+        templateRootPath = EXT:tx_coreuploadexample/Resources/Templates/
+        partialRootPath  = EXT:tx_coreuploadexample/Resources/Partials/
+        layoutRootPath   = EXT:tx_coreuploadexample/Resources/Layouts/
+    }
+}
+
+plugin.tx_coreuploadexample._CSS_DEFAULT_STYLE (
+    textarea.f3-form-error {
+        background-color:#FF9F9F;
+        border: 1px #FF0000 solid;
+    }
+
+    input.f3-form-error {
+        background-color:#FF9F9F;
+        border: 1px #FF0000 solid;
+    }
+    .tx-upload-example table {
+        border-collapse:separate;
+        border-spacing:10px;
+    }
+    .tx-upload-example table th {
+        font-weight:bold;
+    }
+    .tx-upload-example table td {
+        vertical-align:top;
+    }
+)
