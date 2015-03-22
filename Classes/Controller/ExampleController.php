@@ -25,7 +25,7 @@ namespace JostBaron\Coreuploadexample\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use TYPO3\CMS\Extbase\Property\TypeConverter\ResourceConverter;
+use TYPO3\CMS\Extbase\Property\TypeConverter\FileUploadConverter;
 use TYPO3\CMS\Extbase\Property\PropertyMappingConfiguration;
 
 /**
@@ -124,7 +124,7 @@ class ExampleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	public function updateAction(\JostBaron\Coreuploadexample\Domain\Model\Example $example) {
 		$this->exampleRepository->update($example);
 		$this->addFlashMessage('Your new Example was updated.');
-		$this->redirect('list');
+//		$this->redirect('list');
 	}
 
 	/**
@@ -144,19 +144,20 @@ class ExampleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 */
 	protected function setTypeConverterConfigurationForImageUpload($argumentName) {
 		$uploadConfiguration = array(
-			ResourceConverter::CONFIGURATION_ALLOWED_FILE_EXTENSIONS => $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'],
-			ResourceConverter::CONFIGURATION_UPLOAD_FOLDER => '1:/content/',
+			FileUploadConverter::CONFIGURATION_ALLOWED_FILE_EXTENSIONS => $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'],
+			FileUploadConverter::CONFIGURATION_UPLOAD_FOLDER => '1:/content/',
+            FileUploadConverter::CONFIGURATION_DELETE_MODE => FileUploadConverter::CONFIGURATION_DELETE_MODE_REFERENCE_AND_FILE,
 		);
 		/** @var PropertyMappingConfiguration $newExampleConfiguration */
 		$newExampleConfiguration = $this->arguments[$argumentName]->getPropertyMappingConfiguration();
 		$newExampleConfiguration->forProperty('image')
 			->setTypeConverterOptions(
-				ResourceConverter::class,
+				FileUploadConverter::class,
 				$uploadConfiguration
 			);
 		$newExampleConfiguration->forProperty('imageCollection.0')
 			->setTypeConverterOptions(
-				ResourceConverter::class,
+				FileUploadConverter::class,
 				$uploadConfiguration
 			);
 	}

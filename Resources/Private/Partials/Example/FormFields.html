@@ -9,10 +9,11 @@
 	<f:translate key="tx_uploadexample_domain_model_example.image" />
 </label>
 <f:form.upload property="image" >
+    {fileUploadField -> f:format.raw()}
     <f:if condition="{resource}">
         <f:image image="{resource}" alt="" width="50" crop="false"/>
+        <f:form.checkbox name="{deleteFieldName}" value="1"/>
     </f:if>
-    {fileUploadField -> f:format.raw()}
 </f:form.upload>
 
 <br />
@@ -21,8 +22,11 @@
 	<f:translate key="tx_uploadexample_domain_model_example.image_collection" />
 </label>
 <f:form.upload property="imageCollection.0">
+    {fileUploadField -> f:format.raw()}
     <f:if condition="{resource}">
         <f:image image="{resource}" alt="" width="50" crop="false"/>
+        <f:form.checkbox name="{deleteFieldName}" value="1"/>
     </f:if>
-    {fileUploadField -> f:format.raw()}
 </f:form.upload>
+
+<br />
