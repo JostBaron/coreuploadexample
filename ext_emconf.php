@@ -20,7 +20,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'version' => '0.0.1',
 	'constraints' => array(
 		'depends' => array(
-			'core' => '7.2.0-7.2.99',
+			'core' => '7.4.0-7.4.99',
 		),
 		'conflicts' => array(
 		),

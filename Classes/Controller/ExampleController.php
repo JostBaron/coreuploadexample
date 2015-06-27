@@ -76,16 +76,35 @@ class ExampleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 * Action show
 	 *
 	 * @param \JostBaron\Coreuploadexample\Domain\Model\Example $example
+     * @ignorevalidation $example
 	 */
 	public function editAction(\JostBaron\Coreuploadexample\Domain\Model\Example $example) {
 		$this->view->assign('example', $example);
 	}
 
 	/**
-	 * action new
+	 * Set TypeConverter option for image upload
 	 */
-	public function newAction() {
-		$newExample = new \JostBaron\Coreuploadexample\Domain\Model\Example();
+	public function initializeUpdateAction() {
+		$this->setTypeConverterConfigurationForImageUpload('example');
+	}
+
+	/**
+	 * Update-action
+	 *
+	 * @param \JostBaron\Coreuploadexample\Domain\Model\Example $example
+	 */
+	public function updateAction(\JostBaron\Coreuploadexample\Domain\Model\Example $example) {
+		$this->exampleRepository->update($example);
+		$this->addFlashMessage('Your new Example was updated.');
+	}
+
+	/**
+	 * New-action
+	 * @param \JostBaron\Coreuploadexample\Domain\Model\Example $newExample
+     * @ignorevalidation $newExample
+	 */
+	public function newAction(\JostBaron\Coreuploadexample\Domain\Model\Example $newExample = NULL) {
 		$this->view->assign('newExample', $newExample);
 	}
 
@@ -105,26 +124,7 @@ class ExampleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 		$this->exampleRepository->add($newExample);
 		$this->addFlashMessage('Your new Example was created.');
 
-        //$this->redirect('list');
         $this->view->assign('newExample', $newExample);
-	}
-
-	/**
-	 * Set TypeConverter option for image upload
-	 */
-	public function initializeUpdateAction() {
-		$this->setTypeConverterConfigurationForImageUpload('example');
-	}
-
-	/**
-	 * action Update
-	 *
-	 * @param \JostBaron\Coreuploadexample\Domain\Model\Example $example
-	 */
-	public function updateAction(\JostBaron\Coreuploadexample\Domain\Model\Example $example) {
-		$this->exampleRepository->update($example);
-		$this->addFlashMessage('Your new Example was updated.');
-//		$this->redirect('list');
 	}
 
 	/**
@@ -136,7 +136,6 @@ class ExampleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	public function deleteAction(\JostBaron\Coreuploadexample\Domain\Model\Example $example) {
 		$this->exampleRepository->remove($example);
 		$this->addFlashMessage('Your new Example was removed.');
-		$this->redirect('list');
 	}
 
 	/**
@@ -155,6 +154,7 @@ class ExampleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 				FileUploadConverter::class,
 				$uploadConfiguration
 			);
+        $newExampleConfiguration->forProperty('imageCollection')->allowProperties('0');
 		$newExampleConfiguration->forProperty('imageCollection.0')
 			->setTypeConverterOptions(
 				FileUploadConverter::class,
